@@ -1,43 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Desafio Front-End Working-Minds</title>
+    <style>
+        #container {
+            padding: 1em;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="container" class="pure-g" style="margin: 0 auto; width: 70%;">
+        <div class="pure-u-1">
+            <h1>Estados e Municípios do Brasil</h1>
+        </div>
+        <div id="estados" class="pure-u-2-5"></div>
+        <div class="pure-u-2-5">
+            <h2>Municípios</h2>
+            <form action="" class="pure-form pure-form-stacked">
+                <label for="stacked-nome">Nome</label>
+                <input type="text" name="nome">
+                <label for="stacked-sigla">UF</label>
+                <select id="stacked-state" name="uf">
+                    <option value="AC">AC</option>
+                    <option value="BA">BA</option>
+                </select>
+                <button type="submit" class="pure-button pure-button-primary">Salvar</button>
+            </form>
+            <p>&nbsp;</p>
+            <table class="pure-table pure-table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>UF</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>Feijó</td>
+                    <td>AC</td>
+                    <td><i class="far fa-edit"></i></td>
+                    <td><i class="fas fa-trash"></i></td>
+                </tr>
+                <tr>
+                    <td>Pirapora</td>
+                    <td>GO</td>
+                    <td><i class="far fa-edit"></i></td>
+                    <td><i class="fas fa-trash"></i></td>
+                </tr>
+            </table>  
+        </div>
+    </div>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+</body>
 </html>

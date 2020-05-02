@@ -1,0 +1,28 @@
+{
+  "ufs": [
+    {
+      "nome": "Bahia de todos os Santos",
+      "sigla": "BA",
+      "id": 1
+    },
+    {
+      "nome": "Ceará",
+      "sigla": "CE",
+      "id": 2
+    },
+    {
+      "nome": "Rio de Janeiro",
+      "sigla": "RJ",
+      "id": 3
+    },
+    {
+      "nome": "São Paulo",
+      "sigla": "SP",
+      "id": 4
+    }
+  ],
+  "municipios": [],
+  "profile": {
+    "name": "typicode"
+  }
+}
