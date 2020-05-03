@@ -1,27 +1,73 @@
 {
   "ufs": [
     {
-      "nome": "Bahia de todos os Santos",
-      "sigla": "BA",
-      "id": 1
-    },
-    {
-      "nome": "Ceará",
-      "sigla": "CE",
-      "id": 2
-    },
-    {
-      "nome": "Rio de Janeiro",
-      "sigla": "RJ",
+      "nome": "Rio de Janeiro É Bom",
+      "sigla": "RJB",
       "id": 3
     },
     {
       "nome": "São Paulo",
       "sigla": "SP",
       "id": 4
+    },
+    {
+      "nome": "Bahia",
+      "sigla": "BA",
+      "id": 5
+    },
+    {
+      "nome": "Ceará",
+      "sigla": "CE",
+      "id": 6
+    },
+    {
+      "nome": "Xucurte Legal",
+      "sigla": "XU",
+      "id": 7
+    },
+    {
+      "nome": "Tati e Pierre",
+      "sigla": "NF",
+      "id": 8
+    },
+    {
+      "nome": "Xora Não",
+      "sigla": "XNM",
+      "id": 9
+    },
+    {
+      "nome": "Zikizira",
+      "sigla": "ZK",
+      "id": 10
     }
   ],
-  "municipios": [],
+  "municipios": [
+    {
+      "id": 0,
+      "nome": "Feijó",
+      "ufId": 3
+    },
+    {
+      "id": 0,
+      "nome": "Garanhuns",
+      "ufId": 4
+    },
+    {
+      "nome": "Feijó",
+      "ufId": 6,
+      "id": 1
+    },
+    {
+      "nome": "Africa",
+      "ufId": 5,
+      "id": 3
+    },
+    {
+      "nome": "Queri Ver Agora",
+      "ufId": 3,
+      "id": 4
+    }
+  ],
   "profile": {
     "name": "typicode"
   }
