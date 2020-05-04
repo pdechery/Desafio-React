@@ -6,7 +6,7 @@ Este app implementa um CRUD dos Estados e Municípios brasileiros.
 
 ### Executando
 
-Após fazer o clone do repositório digitar os comandos abaixo no diretório gerado.
+Após fazer o clone do repositório rodar os comandos abaixo no diretório gerado.
 
 1. `npm install`
 2. `npm start`
