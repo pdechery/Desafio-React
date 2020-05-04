@@ -1,7 +1,7 @@
 {
   "ufs": [
     {
-      "nome": "Rio de Janeiro É Bom",
+      "nome": "Rio de Janeiro",
       "sigla": "RJB",
       "id": 3
     },
@@ -39,6 +39,11 @@
       "nome": "Zikizira",
       "sigla": "ZK",
       "id": 10
+    },
+    {
+      "nome": "Ijuí",
+      "sigla": "SPC",
+      "id": 11
     }
   ],
   "municipios": [
@@ -53,18 +58,18 @@
       "ufId": 4
     },
     {
-      "nome": "Feijó",
+      "nome": "Feijó TalQual",
       "ufId": 6,
       "id": 1
     },
     {
-      "nome": "Africa",
+      "nome": "Africa Então Tá",
       "ufId": 5,
       "id": 3
     },
     {
-      "nome": "Queri Ver Agora",
-      "ufId": 3,
+      "nome": "Acrelância",
+      "ufId": 6,
       "id": 4
     }
   ],

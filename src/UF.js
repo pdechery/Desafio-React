@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import EstadosForm from './subcomponents/EstadosForm';
 import TableEstados from './subcomponents/TableEstados';
+import ValidationErrors from './subcomponents/ValidationErrors';
 
 class UF extends Component {
 
@@ -22,7 +23,9 @@ class UF extends Component {
     this.setState({
       ufId: id,
       ufNome: nome,
-      ufSigla: sigla
+      ufSigla: sigla,
+      validationErrors: [],
+      invalidForm: false
     })
   }
 
@@ -35,9 +38,48 @@ class UF extends Component {
     })
   }
 
+  ClearFields = () => {
+    this.setState({
+      ufId: '',
+      ufNome: '',
+      ufSigla: '',
+    })
+  }
+
+  validateForm = () => {
+
+    let valid = true;
+    const regex = /^[^0-9]*$/;
+    const siglas = this.props.ufs.map((item) => {return item.sigla});
+
+    const NoNameValidation = !this.state.ufNome ? 'É necessário informar o nome do Estado' : '';
+    const NoUFValidation = !this.state.ufSigla ? 'É necessário informar a sigla do Estado' : '';
+    const RegexValidation = !regex.test(this.state.ufNome) ? 'O nome do Estado deve conter somente letras' : '';
+    const RegexValidationSigla = !regex.test(this.state.ufSigla) ? 'A sigla deve conter somente letras' : '';
+    const ExistantUFValidation = !this.state.ufId && siglas.includes(this.state.ufSigla) ? 'Sigla já existente' : ''; // somente no Create
+
+    if(NoNameValidation || NoUFValidation || RegexValidation || RegexValidationSigla || ExistantUFValidation) {
+      this.setState(state => {
+        const newErrors = [NoNameValidation, NoUFValidation, RegexValidation, RegexValidationSigla, ExistantUFValidation];
+        return {
+          validationErrors: newErrors,
+          invalidForm: true
+        }
+      }, () => console.log(this.state.validationErrors));
+      valid = false;
+    }
+
+    return valid;
+
+  }
+
   submitForm(event){
     // update db
     event.preventDefault();
+
+    const isValid = this.validateForm();
+
+    if(!isValid) return false;
 
     const routeEdit = `http://localhost:3001/ufs/${this.state.ufId}`;
     const routePost = 'http://localhost:3001/ufs';
@@ -63,8 +105,7 @@ class UF extends Component {
     .then(res => {
         if(!res.ok){
           throw {
-            'statusCode': 401,
-            'message': "Falta o sagu"
+            msg:'Houve um problema com a requisição. Tente novamente.'
           };
         }
         return res.json();
@@ -85,6 +126,7 @@ class UF extends Component {
           return uf;
         });
       }
+      console.log(ufsCopy);
       this.props.setUFs(ufsCopy);
     })
     .catch((error) => {
@@ -99,10 +141,7 @@ class UF extends Component {
     })
     .then(res => {
       if(!res.ok){
-        throw {
-          'statusCode': 401,
-          'message': "Falta o xinxim"
-        };
+        throw new Error('Houve um problema com a requisição. Tente novamente.');
       }
       return res.json();
     })
@@ -120,12 +159,14 @@ class UF extends Component {
   render(){
     return (
       <div className="pure-u-2-5">
+        {this.state.invalidForm && <ValidationErrors errors={this.state.validationErrors} />}
         <h2>Estados</h2>
         <EstadosForm 
           nome={this.state.ufNome}
           sigla={this.state.ufSigla}
           handleInputChange={this.handleInputChange}
           submitForm={this.submitForm}
+          ClearFields={this.ClearFields}
         />
         <p>&nbsp;</p>
         <TableEstados 

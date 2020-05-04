@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MunicipiosForm from './subcomponents/MunicipiosForm';
 import TabelaMunicipios from './subcomponents/TabelaMunicipios';
+import ValidationErrors from './subcomponents/ValidationErrors';
 
 class Municipios extends Component {
   constructor(props){
@@ -8,7 +9,9 @@ class Municipios extends Component {
     this.state = {
       mId: "",
       mNome: "",
-      mUfId: ""
+      mUfId: "",
+      validationErrors: [],
+      invalidForm: false
     }
   }
 
@@ -22,11 +25,44 @@ class Municipios extends Component {
   }
 
   handleInputChange = (event) => {
-    const target = event.target;
-    let stateVal = isNaN(target.value) ? 'mNome' : 'mUfId';
+    let {name, value} = event.target;
+    let stateVal = name === 'nome' ? 'mNome' : 'mUfId';
+    
     this.setState({
-      [stateVal]: target.value
+      [stateVal]: value
+    });
+  }
+
+  ClearFields = () => {
+    this.setState({
+      mId: '',
+      mNome: '',
+      mUfId: '',
     })
+  }
+
+  validateForm = () => {
+
+    let valid = true;
+    const regex = /^[^0-9]*$/;
+
+    const NoNameValidation = !this.state.mNome ? 'É necessário informar o nome do Município' : '';
+    const NoUFValidation = !this.state.mUfId ? 'É necessário informar a sigla do Município' : '';
+    const RegexValidation = !regex.test(this.state.mNome) ? 'O nome do município deve conter somente letras' : '';
+
+    if(NoNameValidation || NoUFValidation || RegexValidation) {
+      this.setState(state => {
+        const newErrors = [NoNameValidation, NoUFValidation, RegexValidation];
+        return {
+          validationErrors: newErrors,
+          invalidForm: true
+        }
+      }, () => console.log(this.state.validationErrors));
+      valid = false;
+    }
+
+    return valid;
+
   }
 
   editMncp = (mncp) => {
@@ -39,12 +75,13 @@ class Municipios extends Component {
   }
 
   submitForm = (event) => {
-    // update db
+
     event.preventDefault();
 
-    console.log('submitForm');
-    console.log(this.state.mId);
+    const isValid = this.validateForm();
 
+    if(!isValid) return false;
+    
     const routeEdit = `http://localhost:3001/municipios/${this.state.mId}`;
     const routePost = 'http://localhost:3001/municipios';
     const method = this.state.mId ? 'PUT' : 'POST';
@@ -58,9 +95,6 @@ class Municipios extends Component {
       const id = this.props.municipios.map(function(mncp){ return mncp.id });
       body.id = Math.max(...id) + 1;
     };
-
-    console.log('body');
-    console.log(body);
     
     fetch(route, {
       method:method,
@@ -71,20 +105,14 @@ class Municipios extends Component {
     })
     .then(res => {
         if(!res.ok){
-          throw {
-            'statusCode': 401,
-            'message': "Falta o sagu"
-          };
+          throw new Error('Houve um problema com a requisição. Tente novamente.');
         }
         return res.json();
     })
     .then(data => {
       let mncpsCopy = [];
       if(!this.state.mId) {
-        mncpsCopy = [
-          ...this.props.municipios,
-          data
-        ]
+        mncpsCopy = [...this.props.municipios, data]
       } else {
         mncpsCopy = this.props.municipios.map((mncp) => {
           if(mncp.id === data.id) {
@@ -94,8 +122,6 @@ class Municipios extends Component {
           return mncp;
         });
       }
-      console.log('mncpsCopy');
-      console.log(mncpsCopy);
       this.props.setMncps(mncpsCopy);
     })
     .catch((error) => {
@@ -109,10 +135,7 @@ class Municipios extends Component {
     })
     .then(res => {
       if(!res.ok){
-        throw {
-          'statusCode': 401,
-          'message': "Falta o xinxim"
-        };
+        throw new Error('Houve um problema com a requisição. Tente novamente.');
       }
       return res.json();
     })
@@ -130,13 +153,16 @@ class Municipios extends Component {
   render(){
     return (
       <div className="pure-u-2-5">
+        {this.state.invalidForm && <ValidationErrors errors={this.state.validationErrors} />}
         <h2>Municípios</h2>
         <MunicipiosForm 
           ufs={this.props.ufs} 
           nome={this.state.mNome} 
           ufId={this.state.mUfId}
           handleInputChange={this.handleInputChange}
+          handleBlur={this.handleBlur}
           submitForm={this.submitForm}
+          ClearFields={this.ClearFields}
         />
         <p>&nbsp;</p>
         <TabelaMunicipios 
