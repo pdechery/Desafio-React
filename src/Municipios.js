@@ -45,14 +45,16 @@ class Municipios extends Component {
 
     let valid = true;
     const regex = /^[^0-9]*$/;
+    const nomes = this.props.municipios.map((item) => {return item.nome});
 
     const NoNameValidation = !this.state.mNome ? 'É necessário informar o NOME do Município' : '';
     const NoUFValidation = !this.state.mUfId ? 'É necessário informar a SIGLA do Município' : '';
     const RegexValidation = !regex.test(this.state.mNome) ? 'O NOME do município deve conter somente letras' : '';
+    const ExistantNomeValidation = !this.state.mId && nomes.includes(this.state.mNome) ? 'Nome de Município já existente' : ''; // somente no Create
 
-    if(NoNameValidation || NoUFValidation || RegexValidation) {
+    if(NoNameValidation || NoUFValidation || RegexValidation || ExistantNomeValidation) {
       this.setState(state => {
-        const newErrors = [NoNameValidation, NoUFValidation, RegexValidation];
+        const newErrors = [NoNameValidation, NoUFValidation, RegexValidation, ExistantNomeValidation];
         return {
           validationErrors: newErrors,
           invalidForm: true
