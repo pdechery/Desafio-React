@@ -43,10 +43,7 @@ class App extends Component {
     fetch('http://localhost:3001/ufs')
     .then(res => {
       if(!res.ok) {
-          throw {
-            'statusCode': 401,
-            'message': "Falta o xuxu"
-          };
+          throw new Error("Houve um problema com a requisição, tente novamente");
       }
       return res.json();
     })
@@ -57,10 +54,7 @@ class App extends Component {
       // pegar municípios
       return fetch('http://localhost:3001/municipios').then(res => {
         if(!res.ok) {
-            throw {
-              'statusCode': 401,
-              'message': "Falta o tomate"
-            };
+            throw new Error("Houve um problema com a requisição, tente novamente");
         }
         return res.json();
       }).then(data => {
@@ -78,7 +72,6 @@ class App extends Component {
   render(){
     return (
       <div className="pure-u-1">
-        <h1>Estados e Municípios do Brasil</h1>    
         <UF ufs={this.state.ufs} setUFs={this.setUFs} /> 
         <Municipios ufs={this.state.ufs} municipios={this.state.municipios} setMncps={this.setMunicipios} />
       </div>

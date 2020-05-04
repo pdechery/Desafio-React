@@ -46,9 +46,9 @@ class Municipios extends Component {
     let valid = true;
     const regex = /^[^0-9]*$/;
 
-    const NoNameValidation = !this.state.mNome ? 'É necessário informar o nome do Município' : '';
-    const NoUFValidation = !this.state.mUfId ? 'É necessário informar a sigla do Município' : '';
-    const RegexValidation = !regex.test(this.state.mNome) ? 'O nome do município deve conter somente letras' : '';
+    const NoNameValidation = !this.state.mNome ? 'É necessário informar o NOME do Município' : '';
+    const NoUFValidation = !this.state.mUfId ? 'É necessário informar a SIGLA do Município' : '';
+    const RegexValidation = !regex.test(this.state.mNome) ? 'O NOME do município deve conter somente letras' : '';
 
     if(NoNameValidation || NoUFValidation || RegexValidation) {
       this.setState(state => {
@@ -104,8 +104,8 @@ class Municipios extends Component {
       body: JSON.stringify(body)
     })
     .then(res => {
-        if(!res.ok){
-          throw new Error('Houve um problema com a requisição. Tente novamente.');
+        if(!res.ok){  
+          throw new Error("Houve um problema com a requisição, tente novamente");
         }
         return res.json();
     })
@@ -152,7 +152,7 @@ class Municipios extends Component {
 
   render(){
     return (
-      <div className="pure-u-2-5">
+      <div className="pure-u-1-2">
         {this.state.invalidForm && <ValidationErrors errors={this.state.validationErrors} />}
         <h2>Municípios</h2>
         <MunicipiosForm 

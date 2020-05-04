@@ -2,7 +2,7 @@
   "ufs": [
     {
       "nome": "Rio de Janeiro",
-      "sigla": "RJB",
+      "sigla": "RJ",
       "id": 3
     },
     {
@@ -11,69 +11,26 @@
       "id": 4
     },
     {
-      "nome": "Bahia",
-      "sigla": "BA",
+      "nome": "Minas Gerais",
+      "sigla": "MG",
       "id": 5
-    },
-    {
-      "nome": "Ceará",
-      "sigla": "CE",
-      "id": 6
-    },
-    {
-      "nome": "Xucurte Legal",
-      "sigla": "XU",
-      "id": 7
-    },
-    {
-      "nome": "Tati e Pierre",
-      "sigla": "NF",
-      "id": 8
-    },
-    {
-      "nome": "Xora Não",
-      "sigla": "XNM",
-      "id": 9
-    },
-    {
-      "nome": "Zikizira",
-      "sigla": "ZK",
-      "id": 10
-    },
-    {
-      "nome": "Ijuí",
-      "sigla": "SPC",
-      "id": 11
     }
   ],
   "municipios": [
     {
       "id": 0,
-      "nome": "Feijó",
+      "nome": "Rio de Janeiro",
       "ufId": 3
     },
     {
-      "id": 0,
-      "nome": "Garanhuns",
+      "id": 1,
+      "nome": "São Paulo",
       "ufId": 4
     },
     {
-      "nome": "Feijó TalQual",
-      "ufId": 6,
-      "id": 1
-    },
-    {
-      "nome": "Africa Então Tá",
-      "ufId": 5,
-      "id": 3
-    },
-    {
-      "nome": "Acrelância",
-      "ufId": 6,
-      "id": 4
+      "id": 2,
+      "nome": "Belo Horizonte",
+      "ufId": 5
     }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }

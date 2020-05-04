@@ -6,6 +6,7 @@ function ValidationErrors(props) {
     props.errors.map((error, index) => {
       return error !== '' && 
         <Notification
+          key={index}
           type='error'
           title='Atenção'
           text={error}

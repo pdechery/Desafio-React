@@ -31,8 +31,12 @@ class UF extends Component {
 
   handleInputChange(event){
     const target = event.target;
-    const [value,name] = [target.value, target.name];
+    let [value,name] = [target.value, target.name];
     let stateVal = (name === 'nome') ? 'ufNome' : 'ufSigla';
+    if(name === 'sigla') {
+      console.log(value);
+      value = value.toUpperCase();
+    }
     this.setState({
       [stateVal]: value
     })
@@ -52,10 +56,10 @@ class UF extends Component {
     const regex = /^[^0-9]*$/;
     const siglas = this.props.ufs.map((item) => {return item.sigla});
 
-    const NoNameValidation = !this.state.ufNome ? 'É necessário informar o nome do Estado' : '';
-    const NoUFValidation = !this.state.ufSigla ? 'É necessário informar a sigla do Estado' : '';
-    const RegexValidation = !regex.test(this.state.ufNome) ? 'O nome do Estado deve conter somente letras' : '';
-    const RegexValidationSigla = !regex.test(this.state.ufSigla) ? 'A sigla deve conter somente letras' : '';
+    const NoNameValidation = !this.state.ufNome ? 'É necessário informar o NOME do Estado' : '';
+    const NoUFValidation = !this.state.ufSigla ? 'É necessário informar a SIGLA do Estado' : '';
+    const RegexValidation = !regex.test(this.state.ufNome) ? 'O NOME do Estado deve conter somente letras' : '';
+    const RegexValidationSigla = !regex.test(this.state.ufSigla) ? 'A SIGLA deve conter somente letras' : '';
     const ExistantUFValidation = !this.state.ufId && siglas.includes(this.state.ufSigla) ? 'Sigla já existente' : ''; // somente no Create
 
     if(NoNameValidation || NoUFValidation || RegexValidation || RegexValidationSigla || ExistantUFValidation) {
@@ -104,9 +108,7 @@ class UF extends Component {
     })
     .then(res => {
         if(!res.ok){
-          throw {
-            msg:'Houve um problema com a requisição. Tente novamente.'
-          };
+          throw new Error("Houve um problema com a requisição, tente novamente");
         }
         return res.json();
     })
@@ -126,7 +128,6 @@ class UF extends Component {
           return uf;
         });
       }
-      console.log(ufsCopy);
       this.props.setUFs(ufsCopy);
     })
     .catch((error) => {
@@ -141,7 +142,7 @@ class UF extends Component {
     })
     .then(res => {
       if(!res.ok){
-        throw new Error('Houve um problema com a requisição. Tente novamente.');
+        throw new Error("Houve um problema com a requisição, tente novamente");
       }
       return res.json();
     })
@@ -158,7 +159,7 @@ class UF extends Component {
 
   render(){
     return (
-      <div className="pure-u-2-5">
+      <div className="pure-u-1-2">
         {this.state.invalidForm && <ValidationErrors errors={this.state.validationErrors} />}
         <h2>Estados</h2>
         <EstadosForm 
