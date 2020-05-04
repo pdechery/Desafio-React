@@ -55,16 +55,18 @@ class UF extends Component {
     let valid = true;
     const regex = /^[^0-9]*$/;
     const siglas = this.props.ufs.map((item) => {return item.sigla});
+    const nomes = this.props.ufs.map((item) => {return item.nome});
 
     const NoNameValidation = !this.state.ufNome ? 'É necessário informar o NOME do Estado' : '';
     const NoUFValidation = !this.state.ufSigla ? 'É necessário informar a SIGLA do Estado' : '';
     const RegexValidation = !regex.test(this.state.ufNome) ? 'O NOME do Estado deve conter somente letras' : '';
     const RegexValidationSigla = !regex.test(this.state.ufSigla) ? 'A SIGLA deve conter somente letras' : '';
     const ExistantUFValidation = !this.state.ufId && siglas.includes(this.state.ufSigla) ? 'Sigla já existente' : ''; // somente no Create
+    const ExistantNomeValidation = !this.state.ufId && nomes.includes(this.state.ufNome) ? 'Nome já existente' : ''; // somente no Create
 
-    if(NoNameValidation || NoUFValidation || RegexValidation || RegexValidationSigla || ExistantUFValidation) {
+    if(NoNameValidation || NoUFValidation || RegexValidation || RegexValidationSigla || ExistantUFValidation || ExistantNomeValidation) {
       this.setState(state => {
-        const newErrors = [NoNameValidation, NoUFValidation, RegexValidation, RegexValidationSigla, ExistantUFValidation];
+        const newErrors = [NoNameValidation, NoUFValidation, RegexValidation, RegexValidationSigla, ExistantUFValidation, ExistantNomeValidation];
         return {
           validationErrors: newErrors,
           invalidForm: true
