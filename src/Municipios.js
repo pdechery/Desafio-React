@@ -123,6 +123,7 @@ class Municipios extends Component {
         });
       }
       this.props.setMncps(mncpsCopy);
+      this.ClearFields();
     })
     .catch((error) => {
       console.log(error);

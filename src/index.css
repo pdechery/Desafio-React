@@ -20,6 +20,8 @@ body {
   font-size: 1.1em;
   padding: 1em 0;
   width: 60%!important;
+  box-sizing: border-box;
+  padding-right: 6.7em;
 }
 #footer a {
   color: #1f57b7;

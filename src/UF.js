@@ -129,6 +129,7 @@ class UF extends Component {
         });
       }
       this.props.setUFs(ufsCopy);
+      this.ClearFields();
     })
     .catch((error) => {
       console.log(error);
