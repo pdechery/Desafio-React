@@ -6,11 +6,11 @@ function MunicipiosForm(props){
       <label htmlFor="stacked-nome">Nome</label>
       <input type="text" name="nome" value={props.nome} onChange={props.handleInputChange} minLength="4" maxLength="30" onBlur={props.handleBlur} />
       <label htmlFor="stacked-sigla">UF</label>
-      <select id="stacked-state" name="uf" onChange={props.handleInputChange} onBlur={props.handleBlur}>
+      <select id="stacked-state" name="uf" value={props.ufId} onChange={props.handleInputChange} onBlur={props.handleBlur}>
         <option value=""></option>
         {
-          props.ufs.map((item, index) => (
-            <option key={index} selected={item.id === props.ufId} value={item.id}>{item.sigla}</option>
+          props.ufs.map((uf, index) => (
+            <option key={index} value={uf.id}>{uf.sigla}</option>
           ))
         }
       </select>
