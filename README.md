@@ -13,4 +13,6 @@ Após fazer o clone do repositório digitar os comandos abaixo no diretório ger
 
 Em seguida acessar http://localhost:3000
 
+---
+
 OBS: As portas 3000 e 3001 devem estar liberadas em seu sistema, pois são usadas pelo App.
