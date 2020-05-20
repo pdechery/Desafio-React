@@ -1,4 +1,4 @@
-## Desafio React
+## CRUD UFs Brasil com React
 
 Este app implementa um CRUD dos Estados e Municípios brasileiros.
 
