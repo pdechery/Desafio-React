@@ -1,77 +1,63 @@
 import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import EstadosForm from './subcomponents/EstadosForm';
 import TableEstados from './subcomponents/TableEstados';
 import ValidationErrors from './subcomponents/ValidationErrors';
 
-class UF extends Component {
+export default function UF({ufs, setUFs}) {
 
-  constructor(props){
-    super(props);
-    this.state = {
+   const [uf, setUF] = useState({
       ufId: '',
       ufNome: '',
       ufSigla: ''
-    }
-    this.editUF = this.editUF.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.submitForm = this.submitForm.bind(this);
-    this.deleteUF = this.deleteUF.bind(this);
-  }
-
-  editUF(uf){
-    const {id,nome,sigla} = uf;
-    this.setState({
-      ufId: id,
-      ufNome: nome,
-      ufSigla: sigla,
-      validationErrors: [],
-      invalidForm: false
     })
-  }
 
-  handleInputChange(event){
+  function handleInputChange(event){
     const target = event.target;
     let [value,name] = [target.value, target.name];
     let stateVal = (name === 'nome') ? 'ufNome' : 'ufSigla';
     if(name === 'sigla') {
-      console.log(value);
       value = value.toUpperCase();
     }
-    this.setState({
-      [stateVal]: value
+    console.log({[stateVal]:value});
+    setUF({
+      ...uf,
+      [stateVal]:value
     })
   }
 
-  ClearFields = () => {
-    this.setState({
+  function ClearFields() {
+    setUF({
       ufId: '',
       ufNome: '',
       ufSigla: '',
     })
   }
 
-  validateForm = () => {
+  function validateForm() {
 
     let valid = true;
     const regex = /^[^0-9]*$/;
-    const siglas = this.props.ufs.map((item) => {return item.sigla});
-    const nomes = this.props.ufs.map((item) => {return item.nome});
+    const siglas = ufs.map((item) => {return item.sigla});
+    const nomes = ufs.map((item) => {return item.nome});
 
-    const NoNameValidation = !this.state.ufNome ? 'É necessário informar o NOME do Estado' : '';
-    const NoUFValidation = !this.state.ufSigla ? 'É necessário informar a SIGLA do Estado' : '';
-    const RegexValidation = !regex.test(this.state.ufNome) ? 'O NOME do Estado deve conter somente letras' : '';
-    const RegexValidationSigla = !regex.test(this.state.ufSigla) ? 'A SIGLA deve conter somente letras' : '';
-    const ExistantUFValidation = !this.state.ufId && siglas.includes(this.state.ufSigla) ? 'Sigla já existente' : ''; // somente no Create
-    const ExistantNomeValidation = !this.state.ufId && nomes.includes(this.state.ufNome) ? 'Nome já existente' : ''; // somente no Create
+    const NoNameValidation = !uf.ufNome ? 'É necessário informar o NOME do Estado' : '';
+    const NoUFValidation = !uf.ufSigla ? 'É necessário informar a SIGLA do Estado' : '';
+    const RegexValidation = !regex.test(uf.ufNome) ? 'O NOME do Estado deve conter somente letras' : '';
+    const RegexValidationSigla = !regex.test(uf.ufSigla) ? 'A SIGLA deve conter somente letras' : '';
+    const ExistantUFValidation = !uf.ufId && siglas.includes(uf.ufSigla) ? 'Sigla já existente' : ''; // somente no Create
+    const ExistantNomeValidation = !uf.ufId && nomes.includes(uf.ufNome) ? 'Nome já existente' : ''; // somente no Create
 
     if(NoNameValidation || NoUFValidation || RegexValidation || RegexValidationSigla || ExistantUFValidation || ExistantNomeValidation) {
-      this.setState(state => {
+      
+      setUF(state => {
         const newErrors = [NoNameValidation, NoUFValidation, RegexValidation, RegexValidationSigla, ExistantUFValidation, ExistantNomeValidation];
         return {
           validationErrors: newErrors,
           invalidForm: true
         }
-      }, () => console.log(this.state.validationErrors));
+      });
+      
       valid = false;
     }
 
@@ -79,26 +65,25 @@ class UF extends Component {
 
   }
 
-  submitForm(event){
-    // update db
+  function submitForm(event){
     event.preventDefault();
 
-    const isValid = this.validateForm();
+    const isValid = validateForm();
 
     if(!isValid) return false;
 
-    const routeEdit = `http://localhost:3001/ufs/${this.state.ufId}`;
+    const routeEdit = `http://localhost:3001/ufs/${uf.ufId}`;
     const routePost = 'http://localhost:3001/ufs';
-    const method = this.state.ufId ? 'PUT' : 'POST';
-    const route = this.state.ufId ? routeEdit : routePost
+    const method = uf.ufId ? 'PUT' : 'POST';
+    const route = uf.ufId ? routeEdit : routePost
     const body = {
-      nome: this.state.ufNome,
-      sigla: this.state.ufSigla
+      nome: uf.ufNome,
+      sigla: uf.ufSigla
     }
 
-    if(!this.state.ufId){
-      const id = this.props.ufs.map(function(uf){ return uf.id });
-      body.id = Math.max(...id) + 1;
+    if(!uf.ufId){
+      const id = ufs.map(function(uf){ return uf.id });
+      body.id = Math.max(...id) + 1 + ""  ;
     };
     
     fetch(route, {
@@ -116,13 +101,13 @@ class UF extends Component {
     })
     .then(data => {
       let ufsCopy = [];
-      if(!this.state.ufId) {
+      if(!uf.ufId) {
         ufsCopy = [
-          ...this.props.ufs,
+          ...ufs,
           data
         ]
       } else {
-        ufsCopy = this.props.ufs.map((uf) => {
+        ufsCopy = ufs.map((uf) => {
           if(uf.id === data.id) {
             uf.nome = data.nome;
             uf.sigla = data.sigla;
@@ -130,7 +115,7 @@ class UF extends Component {
           return uf;
         });
       }
-      this.props.setUFs(ufsCopy);
+      setUFs(ufsCopy);
       this.ClearFields();
     })
     .catch((error) => {
@@ -139,8 +124,19 @@ class UF extends Component {
 
   }
 
-  deleteUF(ufId){
-    fetch(`http://localhost:3001/ufs/${ufId}`,{
+  function editUF(uf){
+    const {id,nome,sigla} = uf;
+    setUF({
+      ufId: id,
+      ufNome: nome,
+      ufSigla: sigla,
+      validationErrors: [],
+      invalidForm: false
+    })
+  }
+
+  function deleteUF(id){
+    fetch(`http://localhost:3001/ufs/${id}`,{
       method:'DELETE'
     })
     .then(res => {
@@ -150,38 +146,35 @@ class UF extends Component {
       return res.json();
     })
     .then(data => {
-      const ufsCopy = this.props.ufs.filter((uf) => {
-        return uf.id !== ufId;
+      const ufsCopy = ufs.filter((uf) => {
+        return uf.id !== data.id;
       });
-      this.props.setUFs(ufsCopy);
+      setUFs(ufsCopy);
+      ClearFields();
     })
     .catch((error) => {
       console.log(error);
     });
   }
 
-  render(){
-    return (
-      <div className="pure-u-1-2">
-        {this.state.invalidForm && <ValidationErrors errors={this.state.validationErrors} />}
-        <h2>Estados</h2>
-        <EstadosForm 
-          nome={this.state.ufNome}
-          sigla={this.state.ufSigla}
-          handleInputChange={this.handleInputChange}
-          submitForm={this.submitForm}
-          ClearFields={this.ClearFields}
-        />
-        <p>&nbsp;</p>
-        <TableEstados 
-          ufs={this.props.ufs}
-          setUFs={this.props.setUFs}
-          editUF={this.editUF}
-          deleteUF={this.deleteUF}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className="pure-u-1-2">
+      {uf.invalidForm && <ValidationErrors errors={uf.validationErrors} />}
+      <h2>Estados</h2>
+      <EstadosForm 
+        nome={uf.ufNome}
+        sigla={uf.ufSigla}
+        handleInputChange={handleInputChange}
+        submitForm={submitForm}
+        ClearFields={ClearFields}
+      />
+      <p>&nbsp;</p>
+      <TableEstados 
+        ufs={ufs}
+        setUFs={setUFs}
+        editUF={editUF}
+        deleteUF={deleteUF}
+      />
+    </div>
+  );
 }
-
-export default UF;

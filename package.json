@@ -1,19 +1,19 @@
 {
-  "name": "desafio-wkm",
-  "version": "0.1.0",
+  "name": "estados-municipios-brasil-react",
+  "version": "2.0",
   "private": true,
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.13.0",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "concurrently": "^5.2.0",
-    "json-server": "^0.16.1",
-    "purecss": "^1.0.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-pnotify": "0.0.6",
-    "react-scripts": "3.4.1"
+    "@fortawesome/fontawesome-free": "^6.5.2",
+    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
+    "concurrently": "^8.2.2",
+    "json-server": "",
+    "purecss": "^3.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-pnotify": "^0.0.6",
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "concurrently \"npm run start-js\" \"npm run json-server\"",
@@ -21,10 +21,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "json-server": "json-server --watch db/db.json --port 3001"
+    "json-server": "json-server db/db.json --port 3001"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/plugin-transform-private-property-in-object": "^7.24.7"
   },
   "browserslist": {
     "production": [

@@ -1,6 +1,6 @@
 import React from 'react'
 
-function TableEstados(props){
+export default function TableEstados(props){
   return (
     <table className="pure-table pure-table-bordered">
         <thead>
@@ -35,5 +35,3 @@ function TableEstados(props){
     </table>
   )
 }
-
-export default TableEstados;

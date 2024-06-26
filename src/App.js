@@ -1,44 +1,23 @@
 import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import UF from './UF';
 import Municipios from './Municipios';
 
-class App extends Component {
+function BrasilUFsCrud() {
 
-  constructor(props){
-    super(props);
-    this.state = {
-      ufs: [
-        {
-          id: '',
-          nome:'',
-          sigla:''
-        }
-      ],
-      municipios: [
-        {
-          id: '',
-          nome:'',
-          ufId:''
-        }
-      ]
-    }
-    this.setUFs = this.setUFs.bind(this);
-    this.setMunicipios = this.setMunicipios.bind(this);
-  }
+  const [ufs, setUFs] = useState([{
+    id: '',
+    nome:'',
+    sigla:''
+  }])
+  
+  const [municipios, setMunicipios] = useState([{
+    id: '',
+    nome:'',
+    ufId:''
+  }])
 
-  setMunicipios(newMncps){
-    this.setState({
-      municipios: newMncps
-    })
-  }
-
-  setUFs(newUFs){
-    this.setState({
-      ufs: newUFs
-    })
-  }
-
-  componentDidMount(){
+  useEffect(() => {
     // pegar estados
     fetch('http://localhost:3001/ufs')
     .then(res => {
@@ -48,9 +27,7 @@ class App extends Component {
       return res.json();
     })
     .then(data => {
-      this.setState({
-        ufs: data
-      });
+      setUFs(data);
       // pegar municípios
       return fetch('http://localhost:3001/municipios').then(res => {
         if(!res.ok) {
@@ -58,25 +35,30 @@ class App extends Component {
         }
         return res.json();
       }).then(data => {
-        this.setState({
-          municipios: data
-        });
+        setMunicipios(data);
       });
 
     })
     .catch((error) => {
       console.log(error);
     });
+  }, []);
+
+  
+  function handleUFChange(newUFs){
+    setUFs(newUFs);
   }
 
-  render(){
-    return (
+  function handleMunicipiosChange(newMncps){
+    setMunicipios(newMncps);
+  }
+
+  return (
       <div className="pure-u-1">
-        <UF ufs={this.state.ufs} setUFs={this.setUFs} /> 
-        <Municipios ufs={this.state.ufs} municipios={this.state.municipios} setMncps={this.setMunicipios} />
+        <UF ufs={ufs} setUFs={handleUFChange} />
+        <Municipios ufs={ufs} municipios={municipios} setMncps={handleMunicipiosChange} />
       </div>
     );
-  }
 }
 
-export default App;
+export default BrasilUFsCrud;

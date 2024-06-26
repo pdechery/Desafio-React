@@ -3,34 +3,39 @@
     {
       "nome": "Rio de Janeiro",
       "sigla": "RJ",
-      "id": 3
+      "id": "3"
     },
     {
       "nome": "São Paulo",
       "sigla": "SP",
-      "id": 4
+      "id": "4"
     },
     {
       "nome": "Minas Gerais",
       "sigla": "MG",
-      "id": 5
+      "id": "5"
+    },
+    {
+      "id": "6",
+      "nome": "Maranhão",
+      "sigla": "MA"
     }
   ],
   "municipios": [
     {
-      "id": 0,
+      "id": "0",
       "nome": "Rio de Janeiro",
-      "ufId": 3
+      "ufId": "3"
     },
     {
-      "id": 1,
+      "id": "1",
       "nome": "São Paulo",
-      "ufId": 4
+      "ufId": "4"
     },
     {
-      "id": 2,
+      "id": "2",
       "nome": "Belo Horizonte",
-      "ufId": 5
+      "ufId": "5"
     }
   ]
 }

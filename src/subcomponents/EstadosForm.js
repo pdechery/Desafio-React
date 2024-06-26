@@ -1,6 +1,6 @@
 import React from 'react'
 
-function EstadosForm(props){
+export default function EstadosForm(props){
   return (
     <form action="" className="pure-form pure-form-stacked" onSubmit={props.submitForm} >
         <label htmlFor="stacked-nome">Nome</label>
@@ -12,5 +12,3 @@ function EstadosForm(props){
     </form>
   )
 }
-
-export default EstadosForm;

@@ -1,12 +1,12 @@
 import React from 'react';
 
-function MunicipiosForm(props){
+export default function MunicipiosForm(props){
   return (
     <form action="" className="pure-form pure-form-stacked" onSubmit={props.submitForm}>
       <label htmlFor="stacked-nome">Nome</label>
-      <input type="text" name="nome" value={props.nome} onChange={props.handleInputChange} minLength="4" maxLength="30" onBlur={props.handleBlur} />
+      <input type="text" name="nome" value={props.nome} onChange={props.handleInputChange} minLength="4" maxLength="30" onBlur={handleBlur} />
       <label htmlFor="stacked-sigla">UF</label>
-      <select id="stacked-state" name="uf" value={props.ufId} onChange={props.handleInputChange} onBlur={props.handleBlur}>
+      <select id="stacked-state" name="uf" value={props.ufId} onChange={props.handleInputChange} onBlur={handleBlur}>
         <option value=""></option>
         {
           props.ufs.map((uf, index) => (
@@ -19,5 +19,3 @@ function MunicipiosForm(props){
     </form>
   )
 }
-
-export default MunicipiosForm;

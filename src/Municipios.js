@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
+import { useState } from 'react';
 import MunicipiosForm from './subcomponents/MunicipiosForm';
 import TabelaMunicipios from './subcomponents/TabelaMunicipios';
 import ValidationErrors from './subcomponents/ValidationErrors';
 
-class Municipios extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
+export default function Municipios({ufs, municipios, setMncps}) {
+  
+  const [mncp, setMncp] = useState({
       mId: "",
       mNome: "",
       mUfId: "",
       validationErrors: [],
       invalidForm: false
-    }
-  }
+    });
 
-  getUFSigla = (ufId) => {
-    const uf = this.props.ufs.filter((uf) => {
+  function getUFSigla(ufId) {
+    const uf = ufs.filter((uf) => {
       return uf.id === ufId;
     })
     if(uf.length > 0) {
@@ -24,42 +23,42 @@ class Municipios extends Component {
     }
   }
 
-  handleInputChange = (event) => {
+  function handleInputChange(event) {
     let {name, value} = event.target;
     let stateVal = name === 'nome' ? 'mNome' : 'mUfId';
-    
-    this.setState({
+    setMncp({
+      ...mncp,
       [stateVal]: value
     });
   }
 
-  ClearFields = () => {
-    this.setState({
+  function ClearFields() {
+    setMncp({
       mId: '',
       mNome: '',
       mUfId: '',
     })
   }
 
-  validateForm = () => {
+  function validateForm() {
 
     let valid = true;
     const regex = /^[^0-9]*$/;
-    const nomes = this.props.municipios.map((item) => {return item.nome});
+    const nomes = municipios.map((item) => {return item.nome});
 
-    const NoNameValidation = !this.state.mNome ? 'É necessário informar o NOME do Município' : '';
-    const NoUFValidation = !this.state.mUfId ? 'É necessário informar a UF do Município' : '';
-    const RegexValidation = !regex.test(this.state.mNome) ? 'O NOME do município deve conter somente letras' : '';
-    const ExistantNomeValidation = !this.state.mId && nomes.includes(this.state.mNome) ? 'Nome de Município já existente' : ''; // somente no Create
+    const NoNameValidation = !mncp.mNome ? 'É necessário informar o NOME do Município' : '';
+    const NoUFValidation = !mncp.mUfId ? 'É necessário informar a UF do Município' : '';
+    const RegexValidation = !regex.test(mncp.mNome) ? 'O NOME do município deve conter somente letras' : '';
+    const ExistantNomeValidation = !mncp.mId && nomes.includes(mncp.mNome) ? 'Nome de Município já existente' : ''; // somente no Create
 
     if(NoNameValidation || NoUFValidation || RegexValidation || ExistantNomeValidation) {
-      this.setState(state => {
+      setMncp(state => {
         const newErrors = [NoNameValidation, NoUFValidation, RegexValidation, ExistantNomeValidation];
         return {
           validationErrors: newErrors,
           invalidForm: true
         }
-      }, () => console.log(this.state.validationErrors));
+      });
       valid = false;
     }
 
@@ -67,35 +66,35 @@ class Municipios extends Component {
 
   }
 
-  editMncp = (mncp) => {
+  function editMncp(mncp) {
     const {id, nome, ufId} = mncp;
-    this.setState({
+    setMncp({
       mId: id,
       mNome: nome,
       mUfId: ufId
     })
   }
 
-  submitForm = (event) => {
+  function submitForm(event) {
 
     event.preventDefault();
 
-    const isValid = this.validateForm();
+    const isValid = validateForm();
 
     if(!isValid) return false;
     
-    const routeEdit = `http://localhost:3001/municipios/${this.state.mId}`;
+    const routeEdit = `http://localhost:3001/municipios/${mncp.mId}`;
     const routePost = 'http://localhost:3001/municipios';
-    const method = this.state.mId ? 'PUT' : 'POST';
-    const route = this.state.mId ? routeEdit : routePost
+    const method = mncp.mId ? 'PUT' : 'POST';
+    const route = mncp.mId ? routeEdit : routePost
     const body = {
-      nome: this.state.mNome,
-      ufId: +this.state.mUfId
+      nome: mncp.mNome,
+      ufId: +mncp.mUfId
     }
 
-    if(!this.state.mId){
-      const id = this.props.municipios.map(function(mncp){ return mncp.id });
-      body.id = Math.max(...id) + 1;
+    if(!mncp.mId){
+      const id = municipios.map(function(mncp){ return mncp.id });
+      body.id = Math.max(...id) + 1 + "";
     };
     
     fetch(route, {
@@ -113,10 +112,10 @@ class Municipios extends Component {
     })
     .then(data => {
       let mncpsCopy = [];
-      if(!this.state.mId) {
-        mncpsCopy = [...this.props.municipios, data]
+      if(!mncp.mId) {
+        mncpsCopy = [...municipios, data]
       } else {
-        mncpsCopy = this.props.municipios.map((mncp) => {
+        mncpsCopy = municipios.map((mncp) => {
           if(mncp.id === data.id) {
             mncp.nome = data.nome;
             mncp.ufId = data.ufId;
@@ -124,15 +123,15 @@ class Municipios extends Component {
           return mncp;
         });
       }
-      this.props.setMncps(mncpsCopy);
-      this.ClearFields();
+      setMncps(mncpsCopy);
+      ClearFields();
     })
     .catch((error) => {
       console.log(error);
     });
   }
 
-  deleteMncp = (mId) => {
+  function deleteMncp(mId) {
     fetch(`http://localhost:3001/municipios/${mId}`,{
       method:'DELETE'
     })
@@ -143,42 +142,38 @@ class Municipios extends Component {
       return res.json();
     })
     .then(data => {
-      const mncpsCopy = this.props.municipios.filter((mncp) => {
+      const mncpsCopy = municipios.filter((mncp) => {
         return mncp.id !== mId;
       });
-      this.props.setMncps(mncpsCopy);
+      setMncps(mncpsCopy);
     })
     .catch((error) => {
       console.log(error);
     });
   }
 
-  render(){
-    return (
-      <div className="pure-u-1-2">
-        {this.state.invalidForm && <ValidationErrors errors={this.state.validationErrors} />}
-        <h2>Municípios</h2>
-        <MunicipiosForm 
-          ufs={this.props.ufs} 
-          nome={this.state.mNome} 
-          ufId={this.state.mUfId}
-          handleInputChange={this.handleInputChange}
-          handleBlur={this.handleBlur}
-          submitForm={this.submitForm}
-          ClearFields={this.ClearFields}
-        />
-        <p>&nbsp;</p>
-        <TabelaMunicipios 
-          ufs={this.props.ufs} 
-          setMncps={this.props.setMncps}
-          municipios={this.props.municipios} 
-          getUFSigla={this.getUFSigla} 
-          editMncp={this.editMncp}
-          deleteMncp={this.deleteMncp}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className="pure-u-1-2">
+      {mncp.invalidForm && <ValidationErrors errors={mncp.validationErrors} />}
+      <h2>Municípios</h2>
+      <MunicipiosForm 
+        ufs={ufs} 
+        nome={mncp.mNome}
+        ufId={mncp.mUfId}
+        handleInputChange={handleInputChange}
+        handleBlur={handleBlur}
+        submitForm={submitForm}
+        ClearFields={ClearFields}
+      />
+      <p>&nbsp;</p>
+      <TabelaMunicipios 
+        ufs={ufs} 
+        setMncps={setMncps}
+        municipios={municipios} 
+        getUFSigla={getUFSigla} 
+        editMncp={editMncp}
+        deleteMncp={deleteMncp}
+      />
+    </div>
+  );
 }
-
-export default Municipios;

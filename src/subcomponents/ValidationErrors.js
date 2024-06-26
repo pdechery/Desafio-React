@@ -1,7 +1,7 @@
 import React from 'react'; 
 import { Notification } from 'react-pnotify';
 
-function ValidationErrors(props) {
+export default function ValidationErrors(props) {
   return (
     props.errors.map((error, index) => {
       return error !== '' && 
@@ -19,5 +19,3 @@ function ValidationErrors(props) {
     })
   )
 }
-
-export default ValidationErrors;

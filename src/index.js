@@ -1,13 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import { createRoot } from 'react-dom/client';
+import BrasilUFsCrud from './App';
 import 'purecss/build/pure.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import './index.css';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const rootNode = document.getElementById('root');
+const root = createRoot(rootNode);
+root.render(<BrasilUFsCrud />)
+
