@@ -36,6 +36,16 @@
       "id": "2",
       "nome": "Belo Horizonte",
       "ufId": "5"
+    },
+    {
+      "nome": "Paratê",
+      "ufId": "3",
+      "id": "3"
+    },
+    {
+      "id": "4",
+      "nome": "Teofilo Otoni",
+      "ufId": "5"
     }
   ]
 }

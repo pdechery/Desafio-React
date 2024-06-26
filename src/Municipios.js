@@ -89,7 +89,7 @@ export default function Municipios({ufs, municipios, setMncps}) {
     const route = mncp.mId ? routeEdit : routePost
     const body = {
       nome: mncp.mNome,
-      ufId: +mncp.mUfId
+      ufId: mncp.mUfId
     }
 
     if(!mncp.mId){
@@ -161,7 +161,6 @@ export default function Municipios({ufs, municipios, setMncps}) {
         nome={mncp.mNome}
         ufId={mncp.mUfId}
         handleInputChange={handleInputChange}
-        handleBlur={handleBlur}
         submitForm={submitForm}
         ClearFields={ClearFields}
       />
