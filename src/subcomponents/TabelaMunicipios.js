@@ -1,6 +1,12 @@
 import React from 'react';
+import { useContext } from 'react';
 
-function TabelaMunicipios(props){
+import { UfContext, MuContext } from '../context/AppContext';
+
+export default function TabelaMunicipios({ getUFSigla, editMncp, deleteMncp}){
+
+  const municipios = useContext(MuContext);
+
   return (
     <table className="pure-table pure-table-bordered">
         <thead>
@@ -13,13 +19,13 @@ function TabelaMunicipios(props){
         </thead>
         <tbody>
           {
-            props.municipios.length > 0 ? (
-              props.municipios.map((item,index) => (
+            municipios.length > 0 ? (
+              municipios.map((item,index) => (
                 <tr key={index}>
                     <td>{item.nome}</td>
-                    <td>{props.getUFSigla(item.ufId)}</td>
-                    <td><i className="far fa-edit" onClick={() => props.editMncp(item) }></i></td>
-                    <td><i className="fas fa-trash" onClick={() => props.deleteMncp(item.id) }></i></td>
+                    <td>{getUFSigla(item.ufId)}</td>
+                    <td><i className="far fa-edit" onClick={() => editMncp(item) }></i></td>
+                    <td><i className="fas fa-trash" onClick={() => deleteMncp(item.id) }></i></td>
                 </tr>
               ))
             ) : (
@@ -35,5 +41,3 @@ function TabelaMunicipios(props){
     </table> 
   )
 }
-
-export default TabelaMunicipios;

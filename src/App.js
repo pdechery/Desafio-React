@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { useState, useEffect } from 'react';
 import UF from './UF';
 import Municipios from './Municipios';
+import { UfContext } from './context/AppContext';
 
-function BrasilUFsCrud() {
+export default function BrasilUFsCrud() {
 
   const [ufs, setUFs] = useState([{
     id: '',
@@ -55,10 +56,10 @@ function BrasilUFsCrud() {
 
   return (
       <div className="pure-u-1">
-        <UF ufs={ufs} setUFs={handleUFChange} />
-        <Municipios ufs={ufs} municipios={municipios} setMncps={handleMunicipiosChange} />
+        <UfContext.Provider value={ufs}>
+          <UF setUFs={handleUFChange} />
+          <Municipios municipios={municipios} setMncps={handleMunicipiosChange} />
+        </UfContext.Provider>
       </div>
     );
 }
-
-export default BrasilUFsCrud;

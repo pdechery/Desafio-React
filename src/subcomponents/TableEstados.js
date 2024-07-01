@@ -1,6 +1,13 @@
 import React from 'react'
+import { useContext } from 'react';
 
-export default function TableEstados(props){
+import { UfContext } from '../context/AppContext';
+
+
+export default function TableEstados({ editUF, deleteUF}){
+
+  const ufs = useContext(UfContext);
+
   return (
     <table className="pure-table pure-table-bordered">
         <thead>
@@ -13,13 +20,13 @@ export default function TableEstados(props){
         </thead>
         <tbody>
         {
-          props.ufs.length > 0 ? (
-            props.ufs.map((item, index) => (
+          ufs.length > 0 ? (
+            ufs.map((item, index) => (
               <tr key={item.id}>
                   <td>{item.nome}</td>
                   <td>{item.sigla}</td>
-                  <td><i className="far fa-edit" onClick={() => props.editUF(item) }></i></td>
-                  <td><i className="fas fa-trash" onClick={() => props.deleteUF(item.id) }></i></td>
+                  <td><i className="far fa-edit" onClick={() => editUF(item) }></i></td>
+                  <td><i className="fas fa-trash" onClick={() => deleteUF(item.id) }></i></td>
               </tr>
             ))
           ) : (
