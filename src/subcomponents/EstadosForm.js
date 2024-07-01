@@ -56,7 +56,7 @@ export default function EstadosForm({ uf, handleInputChange, ClearFields, setUFs
 
     if(!uf.ufId){
       const id = ufs.map(function(uf){ return uf.id });
-      body.id = Math.max(...id) + 1 + ""  ;
+      body.id = Math.max(...id) + 1 + "" ;
     };
     
     fetch(route, {

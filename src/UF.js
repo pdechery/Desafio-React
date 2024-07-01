@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import { useState, useEffect } from 'react';
 import { useContext } from 'react';
 
+import { UfContext } from './context/AppContext';
+
 import EstadosForm from './subcomponents/EstadosForm';
 import TableEstados from './subcomponents/TableEstados';
 import ValidationErrors from './subcomponents/ValidationErrors';
 
 export default function UF({setUFs}) {
+
+    const ufs = useContext(UfContext);
 
    const [uf, setUF] = useState({
       ufId: '',
@@ -46,7 +50,7 @@ export default function UF({setUFs}) {
     })
   }
 
-  function deleteUF(id){
+  function deleteUF(id){    
     fetch(`http://localhost:3001/ufs/${id}`,{
       method:'DELETE'
     })
