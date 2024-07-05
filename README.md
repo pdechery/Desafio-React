@@ -1,18 +1,18 @@
-## CRUD UFs Brasil com React
+## CRUD UFs Brasil with React
 
-Este app implementa um CRUD dos Estados e Municípios brasileiros.
+This is a CRUD app about brazilian cities and states
 
-É possível criar, editar e apagar estados e municípios através de uma API REST implementada com o pacote [JSON server](https://github.com/typicode/json-server). 
+You can create, edit and delete states and cities through a REST API implemented with [JSON server](https://github.com/typicode/json-server) package.
 
-### Executando
+### Running
 
-Após fazer o clone do repositório rodar os comandos abaixo no diretório gerado.
+After cloning the repo just run the commands inside its local directory.
 
 1. `npm install`
 2. `npm start`
 
-Em seguida acessar http://localhost:3000
+After that go to http://localhost:3000
 
 ---
 
-OBS: As portas 3000 e 3001 devem estar liberadas em seu sistema, pois são usadas pelo App.
+OBS: Ports 3000 e 3001 should be open as they are used by Create React App and JSON Server packages, respectively
